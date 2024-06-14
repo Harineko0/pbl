@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    tag:
+      - 'v*'
+
+jobs:
+  deploy:
+    name: Deploy to GAS
+    runs-on: ubuntu-latest
+    environment: development
+    env:
+      CLASPRC_ACCESS_TOKEN: ${{ secrets.CLASPRC_ACCESS_TOKEN }}
+      CLASPRC_CLIENT_ID: ${{ secrets.CLASPRC_CLIENT_ID }}
+      CLASPRC_CLIENT_SECRET: ${{ secrets.CLASPRC_CLIENT_SECRET }}
+      CLASPRC_EXPIRY_DATE: ${{ secrets.CLASPRC_EXPIRY_DATE }}
+      CLASPRC_ID_TOKEN: ${{ secrets.CLASPRC_ID_TOKEN }}
+      CLASPRC_REFRESH_TOKEN: ${{ secrets.CLASPRC_REFRESH_TOKEN }}
+      CLASP_SCRIPT_ID: ${{ secrets.CLASP_SCRIPT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Create .env file
+        shell: bash
+        run: |
+          cat > .env <<EOF
+          NODE_ENV='development'
+          DATABASE_URL='${{ secrets.DEV_DATABASE_URL }}'
+          DIRECT_URL='${{ secrets.DEV_DIRECT_URL }}'
+          FIRE_SERVICE_ACCOUNT='${{ secrets.DEV_FIRE_SERVICE_ACCOUNT }}'
+          GCP_SERVICE_ACCOUNT='${{ secrets.DEV_GCP_SERVICE_ACCOUNT }}'
+          EOF
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache-node
+        env:
+          cache-name: cache-node
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-node-
+            ${{ runner.os }}-cache-
+            ${{ runner.os }}-
+      - name: Install node modules
+        if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
+        run: pnpm i
+      - name: Build
+        run: pnpm run build
+        # TODO: deploy to Cloud Run
