@@ -14,8 +14,8 @@ git push origin main
 ```
 
 ## GAS
-1. Git をインストールする
-2. Node をインストール
+[スプレッドシート](https://docs.google.com/spreadsheets/d/1bHkE8b99HBAuce6jFvFRrIt-VLQVDCPXQQ4M423PSqQ/edit?gid=0#gid=0)
+[Windows 11 に Node.js をインストールしよう](https://qiita.com/nayoshik/items/c0febffab4a4b0ffb3b9)
 
 ```shell
 npm install -g @google/clasp
