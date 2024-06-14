@@ -4,10 +4,10 @@ const { GasPlugin } = plugin;
 
 esbuild
     .build({
-        entryPoints: ["./src/main.ts"],
+        entryPoints: ["./src/index.ts"],
         bundle: true,
         minify: true,
-        outfile: "./dist/main.js",
+        outfile: "./dist/index.js",
         plugins: [GasPlugin],
     })
     .catch((e) => {
