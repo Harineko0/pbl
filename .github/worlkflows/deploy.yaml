@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy (production)
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
   deploy:
     name: Deploy to GAS
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     env:
       CLASP_SCRIPT_ID: ${{ secrets.CLASP_SCRIPT_ID }}
     working-directory: gas
