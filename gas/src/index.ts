@@ -1,3 +1,3 @@
-function helloWorld() {
+global.helloWorld = () => {
     console.log('Hello, World!');
 }
