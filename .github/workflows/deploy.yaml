@@ -14,7 +14,9 @@ jobs:
     environment: production
     env:
       CLASP_SCRIPT_ID: ${{ secrets.CLASP_SCRIPT_ID }}
-    working-directory: gas
+    defaults:
+      run:
+        working-directory: gas
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
