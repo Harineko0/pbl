@@ -17,6 +17,13 @@ git push origin main
 [スプレッドシート](https://docs.google.com/spreadsheets/d/1bHkE8b99HBAuce6jFvFRrIt-VLQVDCPXQQ4M423PSqQ/edit?gid=0#gid=0)
 [Windows 11 に Node.js をインストールしよう](https://qiita.com/nayoshik/items/c0febffab4a4b0ffb3b9)
 
+環境構築, gas ディレクトリに移動して, ↓のコマンドを実行
+```shell
+npm install -g pnpm
+pnpm install
+```
+
+スプレッドシートに変更を反映するときは, GitHub にプッシュするか, ローカルで次のコマンドを実行する
 ```shell
 npm install -g @google/clasp
 clasp login
