@@ -36,8 +36,8 @@ pnpm install
 スプレッドシートに変更を反映するときは, GitHub にプッシュするか, ローカルで次のコマンドを実行する
 ```shell
 npm install -g @google/clasp
-clasp login
-clasp clone <スクリプトID>
+npx clasp login
+npx clasp clone <スクリプトID>
 ```
 
 ### スクリプトID
