@@ -11,13 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     env:
-      CLASPRC_ACCESS_TOKEN: ${{ secrets.CLASPRC_ACCESS_TOKEN }}
-      CLASPRC_CLIENT_ID: ${{ secrets.CLASPRC_CLIENT_ID }}
-      CLASPRC_CLIENT_SECRET: ${{ secrets.CLASPRC_CLIENT_SECRET }}
-      CLASPRC_EXPIRY_DATE: ${{ secrets.CLASPRC_EXPIRY_DATE }}
-      CLASPRC_ID_TOKEN: ${{ secrets.CLASPRC_ID_TOKEN }}
-      CLASPRC_REFRESH_TOKEN: ${{ secrets.CLASPRC_REFRESH_TOKEN }}
       CLASP_SCRIPT_ID: ${{ secrets.CLASP_SCRIPT_ID }}
+    working-directory: gas
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
@@ -26,12 +21,11 @@ jobs:
       - name: Create .env file
         shell: bash
         run: |
-          cat > .env <<EOF
-          NODE_ENV='development'
-          DATABASE_URL='${{ secrets.DEV_DATABASE_URL }}'
-          DIRECT_URL='${{ secrets.DEV_DIRECT_URL }}'
-          FIRE_SERVICE_ACCOUNT='${{ secrets.DEV_FIRE_SERVICE_ACCOUNT }}'
-          GCP_SERVICE_ACCOUNT='${{ secrets.DEV_GCP_SERVICE_ACCOUNT }}'
+          cat > .clasp.json <<EOF
+          {
+            "scriptId": "${{ env.CLASP_SCRIPT_ID }}",
+            "rootDir": "dist"
+          }
           EOF
       - name: Cache node modules
         uses: actions/cache@v3
@@ -49,5 +43,4 @@ jobs:
         if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         run: pnpm i
       - name: Build
-        run: pnpm run build
-        # TODO: deploy to Cloud Run
+        run: pnpm run deploy
