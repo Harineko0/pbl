@@ -1,7 +1,22 @@
-# 
+# PBL 12班
+[Gitのインストール方法(Windows版)](https://qiita.com/T-H9703EnAc/items/4fbe6593d42f9a844b1c)
+
+## Git
+```shell
+# リポジトリをクローン
+git clone https://github.com/Harineko0/pbl
+
+# エディアでプログラミングを編集
+
+git add <ファイルを追加した場合,追加したファイルのパス>
+git commit -am "変更内容を書いたメッセージ"
+git push origin main
+```
+
 ## GAS
-1. GitHub をインストールする
+1. Git をインストールする
 2. Node をインストール
+
 ```shell
 npm install -g @google/clasp
 clasp login
