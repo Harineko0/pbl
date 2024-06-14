@@ -4,6 +4,8 @@ on:
   push:
     tag:
       - 'v*'
+    paths:
+      - 'gas/**'
 
 jobs:
   deploy:
