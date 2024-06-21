@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node esbuild.js",
     "push": "clasp push -f",
-    "open": "clasp open",
+    "open": "clasp open"
   },
   "keywords": [],
   "author": "",
