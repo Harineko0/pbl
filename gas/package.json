@@ -18,6 +18,7 @@
     "clasp": "^1.0.0",
     "esbuild": "^0.21.5",
     "esbuild-gas-plugin": "^0.8.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }

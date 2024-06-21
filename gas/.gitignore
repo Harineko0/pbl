@@ -9,4 +9,4 @@
 
 .clasp.json
 
-/dist/*.js
+/dist/**/*.js
