@@ -1,0 +1,37 @@
+name: Build Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Build Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache-node
+        env:
+          cache-name: cache-node
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-node-
+            ${{ runner.os }}-cache-
+            ${{ runner.os }}-
+      - name: Install node modules
+        if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
+        run: pnpm i
+      - name: Build
+        run: pnpm run build

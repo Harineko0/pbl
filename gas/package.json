@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "node esbuild.js",
-    "push": "clasp push",
+    "push": "clasp push -f",
     "open": "clasp open",
     "deploy": "pnpm run build && pnpm run push"
   },
