@@ -3,10 +3,8 @@ name: Deploy (production)
 on:
   workflow_dispatch:
   push:
-    tag:
-      - 'v*'
-    paths:
-      - 'gas/**'
+    branches:
+      - main
 
 jobs:
   deploy:
