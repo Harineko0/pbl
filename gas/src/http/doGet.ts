@@ -1,7 +1,7 @@
 import {swapShiftHandler} from "./swapShiftHandler";
 
 const handlers = new Map([
-    ['/swap', swapShiftHandler]
+    ['swap', swapShiftHandler]
 ])
 
 /**
