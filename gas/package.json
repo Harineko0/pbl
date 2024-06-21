@@ -7,7 +7,7 @@
     "build": "node esbuild.js",
     "push": "clasp push -f",
     "open": "clasp open",
-    "deploy": "clasp deploy -d 'API Endpoint' -i $id"
+    "deploy": "clasp deploy -d 'API Endpoint' -i $npm_config_id"
   },
   "keywords": [],
   "author": "",
