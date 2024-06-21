@@ -9,7 +9,7 @@ const handlers = new Map([
  * https://script.google.com/macros/s/<app_id>/exec
  * @param e
  */
-global.doGet = (e: GoogleAppsScript.Events.DoGet) => {
+export function doGet(e: GoogleAppsScript.Events.DoGet) {
     const path = e.pathInfo;
     const handler = handlers.get(path);
 
