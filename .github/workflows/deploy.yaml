@@ -69,4 +69,4 @@ jobs:
       - name: Push
         run: pnpm run push
       - name: Deploy
-        run: pnpm run deploy
+        run: clasp deploy -d 'API Endpoint' -i ${{ vars.GAS_DEPLOY_ID }}
