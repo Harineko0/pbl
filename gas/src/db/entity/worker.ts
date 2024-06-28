@@ -1,4 +1,4 @@
-// export interface Worker {
-//     id: string;
-//     name: string;
-// }
+export interface Worker {
+    id: string;
+    name: string;
+}
