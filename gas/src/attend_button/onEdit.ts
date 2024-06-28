@@ -1,4 +1,4 @@
-import {onCheckboxChecked} from "./attend";
+import {sendAttendanceEmail} from "./attend";
 
 export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
     if (e.source.getSheetName() !== 'CALENDER') return;
@@ -11,5 +11,6 @@ export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
         console.log("Checkbox is unchecked or already checked.");
         return;
     }
-    onCheckboxChecked(range.getRow());
+
+    sendAttendanceEmail(range.getRow());
 }
