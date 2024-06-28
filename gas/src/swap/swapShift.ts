@@ -2,6 +2,9 @@ function shiftswap() {
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     const sheet1 = spreadsheet.getSheetByName("shifts");
     const sheet2 = spreadsheet.getSheetByName("swaps");
+    if (sheet1==null||sheet2==null){
+      return;
+    }
     const lastRow1 = sheet1.getLastRow();
     const lastRow2 = sheet2.getLastRow();
     let range_a;
@@ -16,6 +19,9 @@ function shiftswap() {
           range_b = sheet1.getRange(j+2,4);
         }
       }
+    if(range_a==null||range_b==null){
+      return;
+    }
     let range_values_a = range_a.getValues(); 
     let range_values_b = range_b.getValues(); 
     range_a.setValues(range_values_b);
