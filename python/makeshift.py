@@ -157,10 +157,7 @@ for e in staffs:
         for s in shift_type:
             if x[e][d][s].value() == 1:
                 df.at[d, e] = s
-# シフト番号をシフト名に変換
-"""
-dic = {'休み': 'none',  '朝':'morning', '昼':'noon', '夜':'night', 'フル':'full'}
-"""
+
 # DataFrameの各要素をシフト名に変換
 #df = df.map(lambda x: dic[x] if pd.notnull(x) else x)
 
