@@ -10,7 +10,7 @@ export class WorkerRepository {
         const last = this.sheet.getLastRow();
 
         this.sheet.getRange(last + 1, 1).setValue(worker.id);
-        this.sheet.getRange(last + 1, 2).setValue(worker.name);
+        this.sheet.getRange(last + 1, 2).setValue(worker.email);
     }
 
     get(id: string): Worker | null {
@@ -23,7 +23,7 @@ export class WorkerRepository {
 
         return {
             id: values[row][0],
-            name: values[row][1]
+            email: values[row][1]
         };
     }
 }
