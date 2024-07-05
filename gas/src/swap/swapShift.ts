@@ -1,4 +1,4 @@
-function shiftswap(id: any) {
+export function shiftswap(id: any) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const sheet1 = spreadsheet.getSheetByName("shifts");
   const sheet2 = spreadsheet.getSheetByName("swaps");
