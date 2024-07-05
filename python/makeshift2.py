@@ -1,13 +1,10 @@
-#%%
 import pandas as pd
 import pulp
-import jpbizday
 import calendar
 import datetime
 from datetime import datetime, timedelta,date
 import os
 import sys
-import numpy
 import json
 
 year=input("何年のシフトを作成しますか:")
@@ -24,9 +21,6 @@ else:
     check=input(f"{year}年{month}月のシフトを作成しますか?（はい/いいえ）:")
     if not check=="はい":
         sys.exit()
-# 営業日を取得(年,月)
-#biz_day=jpbizday.month_bizdays(year, month)
-#print(biz_day[0])
 
 # リストの定義
 # 日付リスト
@@ -36,6 +30,8 @@ H_hope_2=[]
 H_hope_3=[]
 H_hope_4=[]
 staffs=[]
+#相性が悪いペア
+badpeople=[]
 dates = [(date(year, month, 1) + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(calendar.monthrange(year, month)[1])]
 
 with open(file_path, 'r', encoding='utf-8') as file:
@@ -44,10 +40,13 @@ with open(file_path, 'r', encoding='utf-8') as file:
     for person in data["person"]:  
         name = person["name"]
         hope = person["hope"]
-
+        bad = person["bad"]
+        
         if name not in staffs:
             staffs.append(name)
-        
+        for hate in bad:
+            badpeople.append((name,hate))
+            
         for hopedata in hope:
             hopedata[0]=int(hopedata[0])
             hopedata[0]=date(year,month,hopedata[0]).strftime('%Y-%m-%d')
@@ -115,16 +114,18 @@ for d in dates:
 for e in staffs:
     for d in dates:
         prob += pulp.lpSum(x[e][d][s] for s in shift_type) == 1
-
+"""
 #フルの人数を減らす
 for d in dates:
     prob += pulp.lpSum(x[e][d]["full"] for e in staffs) <=3
-
+"""
+"""
 #休みが多くなり過ぎないようにする(4連休防止)
 for e in staffs:
     for d in dates[:-3]:
         prob += x[e][d]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=2)).strftime("%Y-%m-%d")]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=3)).strftime("%Y-%m-%d")]["rest"] <=3
-        
+"""
+
 #3日に１回必ず休む
 for e in staffs:
     for d in dates[:-3]:
@@ -134,15 +135,12 @@ for e in staffs:
 for e in staffs:
     for d in dates[:-3]:
         prob += pulp.lpSum(x[e][d][s] for s in shift_type[1:]) +pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=1)).strftime("%Y-%m-%d")][s] for s in shift_type[1:])+pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=2)).strftime("%Y-%m-%d")][s] for s in shift_type[1:])+pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=3)).strftime("%Y-%m-%d")][s] for s in shift_type[1:]) <=3
-"""       
 """
-for d in dates:
-    for s in shift_type[1:]:
-        for a in shift_type[1:]:
-            # 朝、昼、夜、フルシフトがかぶらないようにする
-            prob += x["加藤"][d][s] + x["武藤"][d][a] <= 1
-"""
-
+#仲悪い人と同じ日のシフトに入らない
+for people in badpeople:
+    for d in dates:
+        prob += pulp.lpSum(x[e][d][s] for e in people for s in shift_type[1:]) <= 1
+#シフト差をつけない（10以下に抑える）
 for e in staffs:
     for t in staffs:
         prob += pulp.lpSum(x[e][d][s] for d in dates for s in shift_type) - pulp.lpSum(x[t][d][s] for d in dates for s in shift_type) <= 10
