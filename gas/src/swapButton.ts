@@ -13,12 +13,12 @@ const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
 export function swapButton() {
     if (sheet === null) return;
 
-    const swapDay: Date = sheet.getRange(2, 1).getValue();
-    const targetWorkerId: string = sheet.getRange(2, 2).getValue();
+    const swapDay: Date = sheet.getRange(3, 2).getValue();
+    const targetWorkerId: string = sheet.getRange(3, 3).getValue();
     const targetWorker = workerRepository.get(targetWorkerId);
 
     if (targetWorker == null) {
-        SpreadsheetApp.getUi().alert("Worker not found.");
+        SpreadsheetApp.getUi().alert(`Worker not found. ${targetWorkerId}`);
         return;
     }
 
