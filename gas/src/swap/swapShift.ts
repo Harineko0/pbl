@@ -1,5 +1,4 @@
-function shiftswap() {
-  const id =1
+function shiftswap(id: any) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const sheet1 = spreadsheet.getSheetByName("shifts");
   const sheet2 = spreadsheet.getSheetByName("swaps");
