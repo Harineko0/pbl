@@ -2,27 +2,43 @@
     "person":[
         {
             "name":"A",
-            "hope":[[7,"noon"],[8,"rest"]]
+            "hope":[[7,"noon"],[8,"rest"]],
+            "bad":[]
         },
         {
             "name":"B",
-            "hope":[]
+            "hope":[],
+            "bad":[]
         },
         {
             "name":"C",
-            "hope":[]
+            "hope":[],
+            "bad":[]
         },
         {
             "name":"D",
-            "hope":[]
+            "hope":[],
+            "bad":[]
         },
         {
             "name":"E",
-            "hope":[]
+            "hope":[],
+            "bad":[]
         },
         {
             "name":"F",
-            "hope":[]
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"G",
+            "hope":[],
+            "bad":["B"]
+        },
+        {
+            "name":"H",
+            "hope":[],
+            "bad":[]
         }
     ]
 }
