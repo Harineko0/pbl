@@ -68,5 +68,5 @@ jobs:
         run: pnpm run build
       - name: Push
         run: pnpm run push
-      - name: Deploy
-        run: pnpm run deploy '${{ vars.GAS_DEPLOY_ID }}'
+#      - name: Deploy
+#        run: pnpm run deploy '${{ vars.GAS_DEPLOY_ID }}'

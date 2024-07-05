@@ -1,4 +1,5 @@
 import {RequestHandler, Response} from "./requestHandler";
+import {shiftswap} from "../swap/swapShift";
 
 type Parameter = {
     'swap-id': string
@@ -20,13 +21,12 @@ export const swapShiftHandler: RequestHandler = (req) => {
 
     const swapId = param['swap-id'];
 
-    // TODO: シフト交換ロジックを呼ぶ
-    // ...
+    shiftswap(swapId);
 
     return Response.text('Shift swap complete.');
 }
 
 export const getSwapShiftUrl = (swapId: string) => {
-    const authority = "https://script.google.com/macros/library/d/1u3X2dxkUIvtSnEO45lXblg5Ej_dDKF_txqD6r10sTydek73xqq9mfp1r/18";
+    const authority = "https://script.google.com/macros/s/AKfycbzUt8PBNl6AtiJefQe59A3fhEI_GSiVcVxR8gu6cj_3kiBjoHNk1Jmi9DjHIAFJ4BSTSg/exec";
     return `${authority}/swap?swap-id=${swapId}`;
 }
