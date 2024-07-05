@@ -1,6 +1,7 @@
 import {doGet} from "./http/doGet";
-import {onEdit} from "./attend_button/onEdit";
-import {resetCheckbox} from "./attend_button/attend";
+import {onEdit} from "./onEdit";
+import {resetCheckbox} from "./edit_handlers/attend";
+import {swapButton} from "./swapButton";
 
 global.main = () => {
     console.log('Hello World!');
@@ -9,3 +10,4 @@ global.main = () => {
 global.doGet = doGet;
 global.onEdit = onEdit;
 global.resetCheckbox = resetCheckbox;
+global.swapButton = swapButton;

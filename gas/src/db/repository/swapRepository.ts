@@ -4,14 +4,16 @@ export class SwapRepository {
     readonly name = 'swaps';
     readonly sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.name);
 
-    create(swap: Swap) {
-        if (this.sheet === null) return;
+    create(swap: Omit<Swap, 'id'>): Swap {
+        if (this.sheet === null) throw new Error("Sheet not found");
 
         const last = this.sheet.getLastRow();
-
-        this.sheet.getRange(last + 1, 1).setValue(swap.id);
+        const id = last - 1;
+        this.sheet.getRange(last + 1, 1).setValue(id);
         this.sheet.getRange(last + 1, 2).setValue(swap.old_shift_id);
         this.sheet.getRange(last + 1, 3).setValue(swap.new_shift_id);
+
+        return {...swap, id: String(id)};
     }
 
     get(id: string): Swap | null {

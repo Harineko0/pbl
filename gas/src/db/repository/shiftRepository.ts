@@ -30,4 +30,20 @@ export class ShiftRepository {
             worker_id: values[row][3]
         };
     }
+
+    getByDateAndWorker(date: Date, workerId: string) {
+        if (this.sheet === null) return null;
+
+        const values = this.sheet.getDataRange().getValues();
+        const value = values.find((row) => row[1] === date && row[3] === workerId);
+
+        if (value === undefined) return null;
+
+        return {
+            id: value[0],
+            date: value[1],
+            shift_type: value[2],
+            worker_id: value[3]
+        };
+    }
 }

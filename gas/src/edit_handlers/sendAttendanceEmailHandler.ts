@@ -6,7 +6,16 @@ const workerRepository = new WorkerRepository();
 const ownerEmail = "harinekouniv@gmail.com";
 const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
 
-export function sendAttendanceEmail(row: number) {
+export function sendAttendanceEmailHandler(e: GoogleAppsScript.Events.SheetsOnEdit) {
+    if (e.source.getSheetName() !== 'CALENDER') return;
+    if (e.range.getColumn() !== 1) return;
+
+    if (e.oldValue === "TRUE" || e.value === "FALSE") {
+        Logger.log("Checkbox is unchecked or already checked.");
+        return;
+    }
+
+    const row = e.range.getRow();
     if (sheet === null) {
         console.error(`Sheet ${sheetName} not found`);
         return;

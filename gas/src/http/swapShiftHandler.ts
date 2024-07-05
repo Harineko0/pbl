@@ -25,3 +25,8 @@ export const swapShiftHandler: RequestHandler = (req) => {
 
     return Response.text('Shift swap complete.');
 }
+
+export const getSwapShiftUrl = (swapId: string) => {
+    const authority = "https://script.google.com/macros/library/d/1u3X2dxkUIvtSnEO45lXblg5Ej_dDKF_txqD6r10sTydek73xqq9mfp1r/18";
+    return `${authority}/swap?swap-id=${swapId}`;
+}
