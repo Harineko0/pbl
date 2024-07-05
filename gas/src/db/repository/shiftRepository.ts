@@ -36,7 +36,8 @@ export class ShiftRepository {
 
         const values = this.sheet.getDataRange().getValues();
         const value = values.find((row) =>
-            (row[1] as Date).getTime() - date.getTime() < 1000
+            row[1] instanceof Date
+            && (row[1] as Date).getTime() - date.getTime() < 1000
             && row[3] === workerId);
 
         if (value === undefined) return null;
