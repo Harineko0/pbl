@@ -1,4 +1,4 @@
-import {sendAttendanceEmailHandler} from "./edit_handlers/attend";
+import {sendAttendanceEmailHandler} from "./edit_handlers/sendAttendanceEmailHandler";
 
 const handlers = [sendAttendanceEmailHandler];
 

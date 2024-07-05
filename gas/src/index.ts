@@ -1,6 +1,6 @@
 import {doGet} from "./http/doGet";
 import {onEdit} from "./onEdit";
-import {resetCheckbox} from "./edit_handlers/attend";
+import {resetCheckbox} from "./edit_handlers/sendAttendanceEmailHandler";
 import {swapButton} from "./swapButton";
 
 global.main = () => {
