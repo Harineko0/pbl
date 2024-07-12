@@ -1,18 +1,22 @@
 import {Shift} from "../entity/shift";
+import {ForCreate} from "../entity/_utils";
 
 export class ShiftRepository {
     readonly sheetName = 'shifts';
     readonly sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.sheetName);
 
-    create(shift: Shift) {
+    create(shift: ForCreate<Shift>) {
         if (this.sheet === null) return;
 
         const last = this.sheet.getLastRow();
+        const id = last + 1;
 
-        this.sheet.getRange(last + 1, 1).setValue(shift.id);
+        this.sheet.getRange(last + 1, 1).setValue(id);
         this.sheet.getRange(last + 1, 2).setValue(shift.date);
         this.sheet.getRange(last + 1, 3).setValue(shift.shift_type);
         this.sheet.getRange(last + 1, 4).setValue(shift.worker_id);
+
+        Logger.log(`Shift created. ${id}: ${shift}`);
     }
 
     get(id: string): Shift | null {
