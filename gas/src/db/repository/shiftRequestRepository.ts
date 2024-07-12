@@ -1,13 +1,13 @@
 import {ShiftRequest} from "../entity/shiftRequest";
 
 export class ShiftRequestRepository {
-    private readonly sheetName = 'SHIFT_REQUEST_FORM';
+    private readonly sheetName = 'shift_requests';
     private readonly sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.sheetName);
 
     findMany(): ShiftRequest[] {
         if (this.sheet === null) return [];
 
-        const values = this.sheet.getRange("F8:G").getValues();
+        const values = this.sheet.getDataRange().getValues().slice(1);
 
         return values.map(val => ({
             worker_id: val[0],
