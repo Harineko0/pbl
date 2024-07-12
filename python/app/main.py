@@ -8,5 +8,8 @@ app = FastAPI()
 
 @app.post("/")
 async def root(req: Request):
+    print(f"Request: {req}")
     shift = make_shift(req)
-    return json.loads(shift)
+    res = json.loads(shift)
+    print(f"Response: {res}")
+    return res
