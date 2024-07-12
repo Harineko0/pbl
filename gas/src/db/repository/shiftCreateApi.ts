@@ -37,13 +37,14 @@ export class ShiftCreateApi {
 
             const workerIds = Object.keys(json);
 
-            return workerIds.map(worker => {
+            return workerIds.map(workerId => {
+                const worker = json[workerId];
                 const dates = Object.keys(worker);
 
                 return dates.map(date => ({
                     date: new Date(date),
-                    shift_type: json[worker][date],
-                    worker_id: worker,
+                    shift_type: worker[date],
+                    worker_id: workerId,
                 }));
             }).reduce((acc, val) => acc.concat(val), []);
 

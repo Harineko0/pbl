@@ -9,12 +9,13 @@ export class ShiftRepository {
         if (this.sheet === null) return;
 
         const last = this.sheet.getLastRow();
-        const id = last + 1;
+        const id = last;
+        const row = last + 1;
 
-        this.sheet.getRange(last + 1, 1).setValue(id);
-        this.sheet.getRange(last + 1, 2).setValue(shift.date);
-        this.sheet.getRange(last + 1, 3).setValue(shift.shift_type);
-        this.sheet.getRange(last + 1, 4).setValue(shift.worker_id);
+        this.sheet.getRange(row, 1).setValue(id);
+        this.sheet.getRange(row, 2).setValue(shift.date);
+        this.sheet.getRange(row, 3).setValue(shift.shift_type);
+        this.sheet.getRange(row, 4).setValue(shift.worker_id);
 
         Logger.log(`Shift created. ${id}: ${shift}`);
     }
