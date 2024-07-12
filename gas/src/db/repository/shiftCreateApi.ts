@@ -20,7 +20,7 @@ export class ShiftCreateApi {
     async createShift(year: number, month: number): Promise<ForCreate<Shift>[]> {
         const requests = shiftRequestRepository.findMany();
         const dislikes = dislikeRepository.findMany();
-        const body = this.convertToBody(year, month, requests, dislikes);
+        const body = JSON.stringify(this.convertToBody(year, month, requests, dislikes));
 
         Logger.log(body);
 
@@ -30,7 +30,7 @@ export class ShiftCreateApi {
                     'Content-Type': 'application/json',
                 },
                 method: 'post',
-                payload: JSON.stringify(body)
+                payload: body
             });
             Logger.log(res);
             const json: ShiftResponse = JSON.parse(res.getContentText());
