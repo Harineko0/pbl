@@ -1,12 +1,11 @@
 from fastapi import FastAPI
-
-# from pydantic import BaseModel
+from request import Request
+from makeshift import make_shift
 
 app = FastAPI()
 
-# class ShiftRequest(BaseModel):
-
 
 @app.post("/")
-async def root():
-    return {"message": "Hello World"}
+async def root(req: Request):
+    shift = make_shift(req)
+    return shift

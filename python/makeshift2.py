@@ -116,11 +116,11 @@ for d in dates:
 for e in staffs:
     for d in dates:
         prob += pulp.lpSum(x[e][d][s] for s in shift_type) == 1
-"""
-#フルの人数を減らす
+
+# フルの人数を減らす
 for d in dates:
-    prob += pulp.lpSum(x[e][d]["full"] for e in staffs) <=3
-"""
+    prob += pulp.lpSum(x[e][d]["full"] for e in staffs) <= 3
+
 """
 #休みが多くなり過ぎないようにする(4連休防止)
 for e in staffs:
