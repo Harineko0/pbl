@@ -16,10 +16,7 @@ export async function createShiftButton() {
 
     try {
         const shifts = await shiftCreateApi.createShift(year, month);
-
-        for (const shift of shifts) {
-            shiftRepository.create(shift);
-        }
+        shiftRepository.createMany(shifts);
 
     } catch (e) {
         ui.alert(`Error happened while creating shifts. ${e}`);

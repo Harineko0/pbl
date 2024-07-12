@@ -5,19 +5,18 @@ export class ShiftRepository {
     readonly sheetName = 'shifts';
     readonly sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(this.sheetName);
 
-    create(shift: ForCreate<Shift>) {
+    createMany(shifts: ForCreate<Shift>[]) {
         if (this.sheet === null) return;
 
         const last = this.sheet.getLastRow();
         const id = last;
-        const row = last + 1;
+        const values = shifts.map(shift => [
+            id, shift.date, shift.shift_type, shift.worker_id
+        ])
 
-        this.sheet.getRange(row, 1).setValue(id);
-        this.sheet.getRange(row, 2).setValue(shift.date);
-        this.sheet.getRange(row, 3).setValue(shift.shift_type);
-        this.sheet.getRange(row, 4).setValue(shift.worker_id);
+        this.sheet.getRange(last + 1, 1, shifts.length, 4).setValues(values);
 
-        Logger.log(`Shift created. ${id}: ${shift}`);
+        Logger.log(`Shift created.`);
     }
 
     get(id: string): Shift | null {
