@@ -9,9 +9,9 @@ export class ShiftRepository {
         if (this.sheet === null) return;
 
         const last = this.sheet.getLastRow();
-        const id = last;
+        let id = last;
         const values = shifts.map(shift => [
-            id, shift.date, shift.shift_type, shift.worker_id
+            id++, shift.date, shift.shift_type, shift.worker_id
         ])
 
         this.sheet.getRange(last + 1, 1, shifts.length, 4).setValues(values);
