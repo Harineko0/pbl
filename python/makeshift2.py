@@ -148,6 +148,11 @@ for d in dates:
             # 朝、昼、夜、フルシフトがかぶらないようにする
             prob += x["加藤"][d][s] + x["武藤"][d][a] <= 1
 """
+#フルが偏らないようにする
+for e in staffs:
+    for t in staffs:
+        prob += pulp.lpSum(x[e][d]["full"] for d in dates) - pulp.lpSum(x[t][d]["full"] for d in dates) <= 3
+        
 #シフト差をつけない
 for e in staffs:
     for t in staffs:
