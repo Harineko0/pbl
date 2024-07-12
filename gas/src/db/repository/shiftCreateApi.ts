@@ -15,7 +15,7 @@ const shiftRequestRepository = new ShiftRequestRepository();
 const dislikeRepository = new DislikeRepository();
 
 export class ShiftCreateApi {
-    private readonly uri = "https://api.render.com/deploy/srv-cq8at4eehbks738gfu7g?key=Tx8Mrcqtgws";
+    private readonly uri = "https://pbl-vlf0.onrender.com/";
 
     async createShift(year: number, month: number): Promise<ForCreate<Shift>[]> {
         const requests = shiftRequestRepository.findMany();
