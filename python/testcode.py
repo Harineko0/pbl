@@ -36,6 +36,10 @@ H_hope_4=[]
 staffs=[]
 badpeople=[]
 dates = [(date(year, month, 1) + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(calendar.monthrange(year, month)[1])]
+if month!=1:
+    predates = [(date(year, month-1, 1) + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(calendar.monthrange(year, month-1)[1])]
+else:
+    predates = [(date(year-1, 12, 1) + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(calendar.monthrange(year-1, 12)[1])]
 
 with open(file_path, 'r', encoding='utf-8') as file:
     data = json.load(file)
@@ -66,7 +70,6 @@ with open(file_path, 'r', encoding='utf-8') as file:
 
 
 shift_type=['rest','morning','noon','night','full']
-
 file_path2=f"shift({year}-{month-1:02d}).json"
 penaperson=[]
 
@@ -76,13 +79,13 @@ if os.path.exists(file_path2):
         free=[]
         for e in staffs:
             cnt=0
-            for d in dates:
-                if data2[e][d]:
+            for d in predates:
+                if data2[e][d] !="rest":
                     cnt += 1
                     free.append((e,cnt))
-                    free.sort(key=lambda x:x[1])
-                    for p in free[:2]:
-                        penaperson.append(p[1])
+        free.sort(key=lambda x:x[1])
+        for p in free[:2]:
+            penaperson.append(p[0])
     
 
 """
@@ -138,14 +141,7 @@ for e in staffs:
 
 #フルの人数を減らす
 for d in dates:
-    prob += pulp.lpSum(x[e][d]["full"] for e in staffs) <=1
-
-"""
-#休みが多くなり過ぎないようにする(4連休防止)
-for e in staffs:
-    for d in dates[:-3]:
-        prob += x[e][d]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=2)).strftime("%Y-%m-%d")]["rest"]+x[e][(datetime.strptime(d, "%Y-%m-%d") + timedelta(days=3)).strftime("%Y-%m-%d")]["rest"] <=3
-"""
+    prob += pulp.lpSum(x[e][d]["full"] for e in staffs) <=2
         
 #3日に１回必ず休む
 for e in staffs:
@@ -156,11 +152,7 @@ for e in staffs:
 for people in badpeople:
     for d in dates:
         prob += pulp.lpSum(x[e][d][s] for e in people for s in shift_type[1:]) <= 1
-"""""
-for e in staffs:
-    for d in dates[:-3]:
-        prob += pulp.lpSum(x[e][d][s] for s in shift_type[1:]) +pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=1)).strftime("%Y-%m-%d")][s] for s in shift_type[1:])+pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=2)).strftime("%Y-%m-%d")][s] for s in shift_type[1:])+pulp.lpSum(x[e][(datetime.datetime.strptime(d, "%Y-%m-%d") + datetime.timedelta(days=3)).strftime("%Y-%m-%d")][s] for s in shift_type[1:]) <=3
-"""       
+
 #フルが偏らないようにする
 for e in staffs:
     for t in staffs:
@@ -169,19 +161,19 @@ for e in staffs:
 #シフト差をつけない
 for e in staffs:
     for t in staffs:
-        prob += pulp.lpSum(x[e][d][s] for d in dates for s in shift_type) - pulp.lpSum(x[t][d][s] for d in dates for s in shift_type) <= 10
+        prob += pulp.lpSum(x[e][d][s] for d in dates for s in shift_type) - pulp.lpSum(x[t][d][s] for d in dates for s in shift_type) <= 5
 
 #ペナルティを追加
 if not os.path.exists(file_path2):
     penalty_full_shift = 4*pulp.lpSum(x[e][d]["full"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["morning"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["noon"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["night"] for e in staffs for d in dates)
 else:
-    penalty_full_shift = 4*pulp.lpSum(x[e][d]["full"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["morning"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["noon"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["night"] for e in staffs for d in dates)+2*pulp.lpSum(x[e][d][s] for e in penaperson for d in dates for s in shift_type[1:4])
+    penalty_full_shift = 4*pulp.lpSum(x[e][d]["full"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["morning"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["noon"] for e in staffs for d in dates)+pulp.lpSum(x[e][d]["night"] for e in staffs for d in dates)+0.1*pulp.lpSum(x[e][d][s] for e in penaperson for d in dates for s in shift_type[1:4])
 
 # 目的関数 (例: 希望休/希望シフトを優先)
 prob += penalty_full_shift  # 必要に応じて目的関数を設定
 
 # 求解
-status = prob.solve()
+status = prob.solve(pulp.PULP_CBC_CMD(msg=1, options=['maxsol 100'], threads=2, timeLimit=60))
 print('Status:', pulp.LpStatus[status])
 
 # 計算結果の表示
