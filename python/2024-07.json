@@ -1,0 +1,47 @@
+<<<<<<< HEAD
+=======
+{
+    "person":[
+        {
+            "name":"A",
+            "hope":[[7,"noon"],[8,"rest"]],
+            "bad":[]
+        },
+        {
+            "name":"B",
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"C",
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"D",
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"E",
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"F",
+            "hope":[],
+            "bad":[]
+        },
+        {
+            "name":"G",
+            "hope":[],
+            "bad":["B"]
+        },
+        {
+            "name":"H",
+            "hope":[],
+            "bad":[]
+        }
+    ]
+}
+>>>>>>> 7c7799beda886fc8eea6f2ff99acd9afaa6c31de
