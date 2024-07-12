@@ -25,15 +25,15 @@ export class ShiftCreateApi {
         Logger.log(body);
 
         try {
-            const res = await fetch(this.uri, {
+            const res = await UrlFetchApp.fetch(this.uri, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
-                body: JSON.stringify(body)
+                method: 'post',
+                payload: JSON.stringify(body)
             });
             Logger.log(res);
-            const json: ShiftResponse = await res.json();
+            const json: ShiftResponse = JSON.parse(res.getContentText());
 
             const workerIds = Object.keys(json);
 
